@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = 'ACCESS';
-  AWS.config.secretAccessKey = 'SECRET';
+  AWS.config.accessKeyId = '';
+  AWS.config.secretAccessKey = '';
+
+  const API_KEY = "";
   AWS.config.region = 'us-west-2';
+
+  const [HELLO, setHELLO] = useState('');
+
+  const { transcript, resetTranscript, listening } = useSpeechRecognition();
+
+  const talk = () => {
+    console.log("hello");
+    const message = new SpeechSynthesisUtterance("Good morning, Himansh");
+    window.speechSynthesis.speak(message);
+    testing();
+  }
+
 
   const testing = () => {
     console.log("testing polly")
@@ -26,25 +41,31 @@ function Landing() {
         var arrayBuffer = uInt8Array.buffer;
         var blob = new Blob([arrayBuffer]);
 
-        var audio = new Audio(); // Create an audio element
+        var audio = new Audio();
         var url = URL.createObjectURL(blob);
-        audio.src = url; // Set the 'src' attribute to the audio URL
+        audio.src = url;
         audio.play();
       }
     });
   }
 
-  const talk = () => {
-    console.log("hello");
-    const message = new SpeechSynthesisUtterance("Good morning, Himansh");
-    window.speechSynthesis.speak(message);
-    testing();
-  }
+  const handleButtonClick = () => {
+    talk();
+    SpeechRecognition.startListening();
+  };
+
+  useEffect(() => {
+    if (listening) {
+      setHELLO(transcript);
+    }
+  }, [transcript, listening]);
 
   return (
     <div>
       <h1>Welcome to Symbiote</h1>
-      <button onClick={talk}>Press</button>
+      <button onClick={handleButtonClick}>Press</button>
+      {listening && <p>Listening...</p>}
+      <p>{HELLO}</p>
     </div>
   );
 }
