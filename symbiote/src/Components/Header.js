@@ -93,7 +93,7 @@ function Header() {
     function resize() {
       width = window.innerWidth;
       height = window.innerHeight;
-      largeHeader.style.height = height+'px';
+      largeHeader.style.height = '400px';
       canvas.width = width;
       canvas.height = height;
     }
@@ -184,7 +184,7 @@ function Header() {
   return (
     <div id="large-header" className="large-header">
       <canvas id="demo-canvas"></canvas>
-      <h1 className="main-title">Connect <span className="thin">Three</span></h1>
+      <h1 className="main-title">Welcome to <span className="thin">Symbiote</span></h1>
     </div>
   );
 }
