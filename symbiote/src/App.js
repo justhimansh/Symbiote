@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-// import Header from './Header';
+import Header from './Components/Header';
 // import Footer from './Footer';
 import Landing from './Pages/Landing';
 import './App.css';
@@ -8,7 +8,7 @@ import './App.css';
 function App() {
   return (
     <div>
-      {/* <Header /> */}
+      <Header />
         <Routes>
           <Route path="/" element={<Landing />} />
         </Routes>
