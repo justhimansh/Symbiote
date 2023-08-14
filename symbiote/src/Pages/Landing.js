@@ -9,6 +9,8 @@
     AWS.config.accessKeyId = '';
     AWS.config.secretAccessKey = '';
 
+    //testing working
+
     const API_KEY = "";
     const { transcript, listening, resetTranscript } = useSpeechRecognition();
 
