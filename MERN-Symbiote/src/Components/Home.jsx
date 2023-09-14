@@ -5,22 +5,19 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = 'AKIAU4MU2XJ4KN5VI6RE';
-  AWS.config.secretAccessKey = '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';
+  AWS.config.accessKeyId = '' ;
+  AWS.config.secretAccessKey = '' ;
   AWS.config.region = 'us-west-2';
 
-  const API_KEY = "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";
+  const API_KEY = '';
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
 
   const [responseText, setResponseText] = useState('');
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isAISpeaking, setIsAISpeaking] = useState(false);
 
   const audioRef = useRef(null);
 
   const GPT = async () => {
-    setIsAISpeaking(true);
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_KEY}`,
@@ -29,7 +26,7 @@ function Landing() {
     const data = {
       model: "gpt-3.5-turbo",
       messages: [
-        { role: "system", content: "" },
+        { role: "system", content: "Pretend you're a personal assistant. Limit your responses to 2 sentences MAX." },
         { role: "user", content: transcript },
       ],
     };
@@ -44,40 +41,20 @@ function Landing() {
     }
   };
 
-  const startListeningWithDelay = () => {
-    setIsSpeaking(true);
-    setIsAISpeaking(true);
-    SpeechRecognition.startListening();
-  };
-
   useEffect(() => {
     let timer;
-    if (listening && !isAISpeaking) {
+    if (listening) {
       clearTimeout(timer);
+    } else {
       timer = setTimeout(() => {
-        setIsAISpeaking(false);
         GPT();
       }, 1500);
     }
     return () => clearTimeout(timer);
-  }, [listening, isAISpeaking]);
-
-  const handleButtonClick = () => {
-    startListeningWithDelay();
-  };
-
-  useEffect(() => {
-    if (listening) {
-      GPT();
-    }
-  }, [transcript, listening]);
+  }, [listening]);
 
   const talk = (text) => {
-    const polly = new AWS.Polly({
-      accessKeyId: 'AKIAU4MU2XJ4KN5VI6RE',
-      secretAccessKey: 'Qf87Livoc+euweeyvOdyBnTb5n13inW81vQVBOx1',
-      region: 'us-west-2', // Replace with your desired AWS region
-    });
+    const polly = new AWS.Polly();
 
     const params = {
       OutputFormat: "mp3",
@@ -97,6 +74,10 @@ function Landing() {
         if (audioRef.current) {
           audioRef.current.src = URL.createObjectURL(blob);
           audioRef.current.play();
+
+          audioRef.current.addEventListener('ended', () => {
+            SpeechRecognition.startListening();
+          });
         }
       }
     });
@@ -105,7 +86,7 @@ function Landing() {
   return (
     <div>
       <h1>Welcome to Symbiote</h1>
-      <button onClick={handleButtonClick}>Press</button>
+      <button onClick={() => SpeechRecognition.startListening()}>Press</button>
       {listening && <p>Listening...</p>}
       <p>Content goes here: {responseText}</p>
       <audio ref={audioRef} controls />
