@@ -2,14 +2,16 @@ import { Link } from 'react-router-dom';
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import Chatbot from './Chatbot';
+
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = '' ;
-  AWS.config.secretAccessKey = '' ;
+  AWS.config.accessKeyId = 'AKIAU4MU2XJ4E2RYVHER' ;
+  AWS.config.secretAccessKey = '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' ;
   AWS.config.region = 'us-west-2';
 
-  const API_KEY = '';
+  const API_KEY = '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';
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
 
@@ -60,7 +62,7 @@ function Landing() {
       OutputFormat: "mp3",
       Text: text,
       TextType: "text",
-      VoiceId: "Joanna", // Choose a voice from Amazon Polly
+      VoiceId: "joana", // Choose a voice from Amazon Polly
     };
 
     polly.synthesizeSpeech(params, function (err, data) {
@@ -82,16 +84,19 @@ function Landing() {
       }
     });
   };
+  
 
   return (
     <div>
-      <h1>Welcome to Symbiote</h1>
+      <h1 style={{ textAlign: 'center' ,marginTop: '20px'}}>Welcome to Symbiote</h1>
       <button onClick={() => SpeechRecognition.startListening()}>Press</button>
       {listening && <p>Listening...</p>}
       <p>Content goes here: {responseText}</p>
       <audio ref={audioRef} controls />
     </div>
   );
+  
 }
 
 export default Landing;
+
