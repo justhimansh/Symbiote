@@ -7,7 +7,7 @@ import sound1 from "../Files/sound1.mp3";
 import sound2 from "../Files/sound2.mp3";
 import sound3 from "../Files/sound3.mp3";
 //import V_paper from '../Files/V_paper.jpg';
-import Venom from "../Files/Venom.gif";
+import Venom from "../Files/symbiote_goo.gif";
 import VenomVoice from "../Files/VenomVoice.mp3";
 
 function Landing() {
