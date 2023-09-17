@@ -7,16 +7,16 @@ import sound1 from "../Files/sound1.mp3";
 import sound2 from "../Files/sound2.mp3";
 import sound3 from "../Files/sound3.mp3";
 //import V_paper from '../Files/V_paper.jpg';
-import Venom from "../Files/symbiote_goo.gif";
+import Venom from "../Files/Venom.gif";
 import VenomVoice from "../Files/VenomVoice.mp3";
 
 function Landing() {
   var AWS = require("aws-sdk");
   AWS.config.accessKeyId = "AKIAU4MU2XJ4GYTB5P3W";
-  AWS.config.secretAccessKey = "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";
+  AWS.config.secretAccessKey = "gTWTq3kJBQwN61GVWvSwmOxx9MQI/5JEKxrxz6mP";
   AWS.config.region = "us-west-2";
 
-  const API_KEY = "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";
+  const API_KEY = "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";
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
