@@ -10,6 +10,8 @@ import sound3 from "../Files/sound3.mp3";
 import Venom from "../Files/symbiote_goo.gif";
 import VenomVoice from "../Files/VenomVoice.mp3";
 import { TweenLite, Circ } from "gsap";
+import Chatbot from "../Components/Chatbot";
+import Whether from "../Components/Whether";
 
 function Landing() {
   var AWS = require("aws-sdk");
@@ -393,7 +395,10 @@ fetch(apiUrl)
             </div>
           </div>
         </div>
-
+      <div>
+        <Chatbot />
+        <Whether />
+      </div>
         {/* <h1 className="main-title">Welcome to <span className="thin">Symbiote</span></h1> */}
         <div className="element">
           {listening}

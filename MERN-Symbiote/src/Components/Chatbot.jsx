@@ -5,7 +5,7 @@ function Chatbot() {
   return (
     <div className="chatbot-container">
       <div className="chatbot-header">
-        <h3>Chatbot</h3>
+        <h3 style={{ color: 'white'}}>Chatbot</h3>
       </div>
       <div className="chatbot-body">
         {/* Chat messages will be displayed here */}
