@@ -26,6 +26,18 @@ function Landing() {
   const [rain, setRain] = useState("");
   const [visibility, setVisibility] = useState("");
 
+  const [currentVoice, setCurrentVoice] = useState("Joanna");
+
+// const voices = [
+//   { name: "Joanna", id: "Joanna" }, // Add more voices as needed
+//   { name: "AnotherVoice", id: "AnotherVoice" },
+//   // Add more voices here with their respective IDs
+// ];
+
+// const changeVoice = (voiceId) => {
+//   setCurrentVoice(voiceId);
+// };
+
   const GPT = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -95,6 +107,7 @@ function Landing() {
       }
     });
   };
+  
 
   function SoundEffectButton() {
     const effects = [sound1, sound2, sound3, VenomVoice];
@@ -400,10 +413,27 @@ fetch(apiUrl)
             onClick={() => SpeechRecognition.startListening()}
           >
             Press to interact
+            
           </button>
+          
         </div>
-      </div>
+        {/* <div>
+        <h4>Current Voice: {currentVoice}</h4>
+        <div>
+          {voices.map((voice) => (
+            <button
+              key={voice.id}
+              onClick={() => changeVoice(voice.id)}
+              className={currentVoice === voice.id ? "active-voice-button" : ""}
+            >
+              {voice.name}
+            </button>
+          ))}
+        </div>
+      </div> */}
     </div>
+      </div>
+    
   );
 }
 
