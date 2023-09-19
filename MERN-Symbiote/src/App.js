@@ -6,7 +6,7 @@ import Service from './Components/Service';
 import Login from './Components/Login';
 import Register from './Components/Register';
 import { Route, Switch } from 'react-router-dom';
-
+import Contact from './Components/Contact';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route exact path='/service' component={Service}/>
         <Route exact path='/login' component={Login}/>
         <Route exact path='/register' component={Register}/>
-
+        <Route exact path='/contact' component={Contact}/>
       </Switch>
     </>
   );
