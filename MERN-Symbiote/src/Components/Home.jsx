@@ -10,16 +10,15 @@ import sound3 from "../Files/sound3.mp3";
 import Venom from "../Files/symbiote_goo.gif";
 import VenomVoice from "../Files/VenomVoice.mp3";
 import { TweenLite, Circ } from "gsap";
-import Chatbot from "../Components/Chatbot";
-import Whether from "../Components/Whether";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = "AKIAU4MU2XJ4KBPFCY6M";
-  AWS.config.secretAccessKey = "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";
+  AWS.config.accessKeyId = "check discord";
+  AWS.config.secretAccessKey = "check discord";
   AWS.config.region = "us-west-2";
+  const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = "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";
+  const API_KEY = "check discord";
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
@@ -27,35 +26,64 @@ function Landing() {
   const [temperature, setTemperature] = useState("");
   const [rain, setRain] = useState("");
   const [visibility, setVisibility] = useState("");
+  var counter = 0;
 
-  const [currentVoice, setCurrentVoice] = useState("Joanna");
-
-// const voices = [
-//   { name: "Joanna", id: "Joanna" }, // Add more voices as needed
-//   { name: "AnotherVoice", id: "AnotherVoice" },
-//   // Add more voices here with their respective IDs
-// ];
-
-// const changeVoice = (voiceId) => {
-//   setCurrentVoice(voiceId);
-// };
+  useEffect(() => {
+    if (!shouldProcessInput) {
+      SpeechRecognition.abortListening();
+      audioRef.current.pause();
+    }
+  }, [shouldProcessInput]);
 
   const GPT = async () => {
+    counter = counter + 1;
+  
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_KEY}`,
     };
+  
+    // Check if the user said "bye" and respond before stopping
+    if (transcript.toLowerCase().includes("bye")) {
+      const goodbyeMessage = "Goodbye!";
+      setResponseText(goodbyeMessage);
+      talk(goodbyeMessage);
+
+      // Pause for a moment to let the "Goodbye!" message finish before stopping
+      setTimeout(() => {
+        // Set a state variable to indicate that the app should not process further input
+        setShouldProcessInput(false);
+      }, 2000); // Adjust the delay time as needed
+      return;
+    }
+    
+    if (transcript.toLowerCase().includes("news")) {
+      window.open("https://www.nzherald.co.nz", "_blank");
+      return;
+    }
+
+    if (transcript.toLowerCase().includes("email")) {
+      window.open("mail.google.com/mail/", "_blank");
+      return;
+    }
+  
+    // Check if the app should continue processing input
+    if (!shouldProcessInput) {
+      return;
+    }
+  
     const data = {
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
           content:
-            "Pretend you're a personal assistant. Limit your responses to 2 sentences MAX. Start off by saying Hello, How I am Symbiote. How may I assit you today?",
+            "Pretend you're a personal assistant. Limit your responses to 2 sentences MAX.",
         },
         { role: "user", content: transcript },
       ],
     };
+  
     try {
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -69,6 +97,7 @@ function Landing() {
       console.error("Error:", error);
     }
   };
+  
 
   useEffect(() => {
     let timer;
@@ -109,7 +138,6 @@ function Landing() {
       }
     });
   };
-  
 
   function SoundEffectButton() {
     const effects = [sound1, sound2, sound3, VenomVoice];
@@ -380,6 +408,24 @@ fetch(apiUrl)
     );
   }
 
+  function HoverButton(){
+    var audio = new Audio(sound1);
+
+    audio.volume = 0.2;
+
+    audio.play();
+  }
+
+
+  function reloadNeeded(){
+    if(counter > 0 ){
+      setTimeout(() => {
+        window.location.reload();
+      }, 1800);
+      
+    }
+  }
+
   return (
     <div style={{}}>
       <div id="large-header" className="large-header">
@@ -395,10 +441,7 @@ fetch(apiUrl)
             </div>
           </div>
         </div>
-      <div>
-        <Chatbot />
-        <Whether />
-      </div>
+
         {/* <h1 className="main-title">Welcome to <span className="thin">Symbiote</span></h1> */}
         <div className="element">
           {listening}
@@ -415,30 +458,16 @@ fetch(apiUrl)
           <h3 className="response">{responseText}</h3>
           <button
             className="btn btn-three press"
-            onClick={() => SpeechRecognition.startListening()}
+            onClick={() => {
+              SpeechRecognition.startListening();
+              HoverButton();
+              reloadNeeded();}}
           >
             Press to interact
-            
           </button>
-          
         </div>
-        {/* <div>
-        <h4>Current Voice: {currentVoice}</h4>
-        <div>
-          {voices.map((voice) => (
-            <button
-              key={voice.id}
-              onClick={() => changeVoice(voice.id)}
-              className={currentVoice === voice.id ? "active-voice-button" : ""}
-            >
-              {voice.name}
-            </button>
-          ))}
-        </div>
-      </div> */}
-    </div>
       </div>
-    
+    </div>
   );
 }
 
