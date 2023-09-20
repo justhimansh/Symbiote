@@ -13,12 +13,12 @@ import { TweenLite, Circ } from "gsap";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = "AKIAU4MU2XJ4BBWY4MMQ";
-  AWS.config.secretAccessKey = "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";
+  AWS.config.accessKeyId = "discord";
+  AWS.config.secretAccessKey = "discord";
   AWS.config.region = "us-west-2";
   const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = "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";
+  const API_KEY = "discord";
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
@@ -37,12 +37,12 @@ function Landing() {
 
   const GPT = async () => {
     counter = counter + 1;
-
+  
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_KEY}`,
     };
-
+  
     // Check if the user said "bye" and respond before stopping
     if (transcript.toLowerCase().includes("bye")) {
       const goodbyeMessage = "Goodbye!";
@@ -57,21 +57,53 @@ function Landing() {
       return;
     }
 
+    if (transcript.toLowerCase().includes("stop")) {
+      const goodbyeMessage = "Goodbye!";
+      setResponseText(goodbyeMessage);
+      talk(goodbyeMessage);
+
+      // Pause for a moment to let the "Goodbye!" message finish before stopping
+      setTimeout(() => {
+        // Set a state variable to indicate that the app should not process further input
+        setShouldProcessInput(false);
+      }, 2000); // Adjust the delay time as needed
+      return;
+    }
+
+    if (transcript.toLowerCase().includes("goodbye")) {
+      const goodbyeMessage = "Goodbye!";
+      setResponseText(goodbyeMessage);
+      talk(goodbyeMessage);
+
+      // Pause for a moment to let the "Goodbye!" message finish before stopping
+      setTimeout(() => {
+        // Set a state variable to indicate that the app should not process further input
+        setShouldProcessInput(false);
+      }, 2000); // Adjust the delay time as needed
+      return;
+    }
+    
+    
     if (transcript.toLowerCase().includes("news")) {
       window.open("https://www.nzherald.co.nz", "_blank");
       return;
     }
 
     if (transcript.toLowerCase().includes("email")) {
-      window.open("mail.google.com/mail/", "_blank");
+      window.open("https://mail.google.com/mail/", "_blank");
       return;
     }
 
+    if (transcript.toLowerCase().includes("instagram")) {
+      window.open("https://www.instagram.com", "_blank");
+      return;
+    }
+  
     // Check if the app should continue processing input
     if (!shouldProcessInput) {
       return;
     }
-
+  
     const data = {
       model: "gpt-3.5-turbo",
       messages: [
@@ -83,7 +115,7 @@ function Landing() {
         { role: "user", content: transcript },
       ],
     };
-
+  
     try {
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -97,6 +129,7 @@ function Landing() {
       console.error("Error:", error);
     }
   };
+
 
   useEffect(() => {
     let timer;
