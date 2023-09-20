@@ -112,6 +112,22 @@ code {
   
 }
 
+.chatbot-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30%; 
+  
+}
+
+.chatbot-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #333;
+  color: white;
+}
+
 .element{
   display: flex;
   flex-direction: column;
@@ -146,6 +162,8 @@ audio{
   left: 0;
   width: 100%;
 }
+
+
 
 .press{
   position: absolute;

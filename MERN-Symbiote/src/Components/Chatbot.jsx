@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_KEY = "discord"; // Replace with your actual OpenAI API key
+const API_KEY = ""; // Replace with your actual OpenAI API key
 
 function Chatbot() {
   const [userInput, setUserInput] = useState("");
@@ -53,26 +53,29 @@ function Chatbot() {
   };
 
   return (
-    <div className="wrapper">
+    <div className="chatbot-container">
+
+    <div className="chatbot-wrapper">
       <label className="label">Enter Prompt: </label>
       <input
         className="inputstuff"
         type="text"
         value={userInput}
         onChange={handleUserInputChange}
-      />
+        />
       <button onClick={handleClick}>Generate</button>
 
       <div>
         {isLoading ? (
           <h1>Loading...</h1>
-        ) : (
-          <h1 className="generated-text">
+          ) : (
+            <h1 className="generated-text">
             {generatedText}
           </h1>
         )}
       </div>
     </div>
+        </div>
   );
 }
 
