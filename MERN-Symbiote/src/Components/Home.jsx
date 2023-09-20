@@ -15,11 +15,11 @@ import Whether from "../Components/Whether";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = "AKIAU4MU2XJ4KBPFCY6M";
-  AWS.config.secretAccessKey = "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";
+  AWS.config.accessKeyId = "AKIAU4MU2XJ4P4KZYN7E";
+  AWS.config.secretAccessKey = "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";
   AWS.config.region = "us-west-2";
 
-  const API_KEY = "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";
+  const API_KEY = "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  ";
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
@@ -30,15 +30,7 @@ function Landing() {
 
   const [currentVoice, setCurrentVoice] = useState("Joanna");
 
-// const voices = [
-//   { name: "Joanna", id: "Joanna" }, // Add more voices as needed
-//   { name: "AnotherVoice", id: "AnotherVoice" },
-//   // Add more voices here with their respective IDs
-// ];
 
-// const changeVoice = (voiceId) => {
-//   setCurrentVoice(voiceId);
-// };
 
   const GPT = async () => {
     const headers = {
@@ -422,20 +414,6 @@ fetch(apiUrl)
           </button>
           
         </div>
-        {/* <div>
-        <h4>Current Voice: {currentVoice}</h4>
-        <div>
-          {voices.map((voice) => (
-            <button
-              key={voice.id}
-              onClick={() => changeVoice(voice.id)}
-              className={currentVoice === voice.id ? "active-voice-button" : ""}
-            >
-              {voice.name}
-            </button>
-          ))}
-        </div>
-      </div> */}
     </div>
       </div>
     
