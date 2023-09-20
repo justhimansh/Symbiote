@@ -18,10 +18,10 @@ const Navbar = () => {
                     <NavLink className="nav-link" to="/service">Service</NavLink>
                   </li>
                   <li class="nav-item">
-                    <NavLink className="nav-link" to="/Contact">Contact</NavLink>
+                    <NavLink className="nav-link" to="/contact">Contact</NavLink>
                   </li>
                   <li class="nav-item">
-                    <NavLink className="nav-link" to="/Chatbot">Chat Bot</NavLink>
+                    <NavLink className="nav-link" to="/chatbot">Chat Bot</NavLink>
                   </li>
                 </ul>
                 <NavLink className="navbar-brand fw-bolder fs-4 mx-auto"to="/">Symbiote</NavLink>

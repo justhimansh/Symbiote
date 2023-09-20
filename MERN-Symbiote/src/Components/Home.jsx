@@ -10,6 +10,7 @@ import sound3 from "../Files/sound3.mp3";
 import Venom from "../Files/symbiote_goo.gif";
 import VenomVoice from "../Files/VenomVoice.mp3";
 import { TweenLite, Circ } from "gsap";
+import Weather from "./Weather";
 
 function Landing() {
   var AWS = require("aws-sdk");
