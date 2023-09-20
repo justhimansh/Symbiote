@@ -15,11 +15,11 @@ import Weather from "./Weather";
 function Landing() {
   var AWS = require("aws-sdk");
   AWS.config.accessKeyId = "amazon public key"; //HERE
-  AWS.config.secretAccessKey = "amazon secret key"; //HERE
+  AWS.config.secretAccessKey = "amazon public key"; //HERE
   AWS.config.region = "us-west-2";
   const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = "open ai key"; //HERE
+  const API_KEY = "openai keys"; //HERE
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");

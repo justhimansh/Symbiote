@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_KEY = ""; // Replace with your actual OpenAI API key
+const API_KEY = "openai keys"; // Replace with your actual OpenAI API key
 
 function Chatbot() {
   const [userInput, setUserInput] = useState("");
@@ -53,7 +53,7 @@ function Chatbot() {
   };
 
   return (
-    <div className="chatbot-container">
+    <div className="about-background">
 
     <div className="chatbot-wrapper">
       <label className="label">Enter Prompt: </label>
