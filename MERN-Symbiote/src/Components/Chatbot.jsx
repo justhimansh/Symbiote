@@ -1,21 +1,79 @@
-import React from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 
-const Chatbot = () => {
+const API_KEY = "discord"; // Replace with your actual OpenAI API key
+
+function Chatbot() {
+  const [userInput, setUserInput] = useState("");
+  const [generatedText, setGeneratedText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUserInputChange = (event) => {
+    setUserInput(event.target.value);
+  };
+
+  const handleClick = async () => {
+    setIsLoading(true);
+    await generateLetter(userInput);
+    setIsLoading(false);
+  };
+
+  const generateLetter = async (inputText) => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    };
+
+    const data = {
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an AI personal assistant.",
+        },
+        {
+          role: "user",
+          content: inputText,
+        },
+      ],
+    };
+
+    try {
+      const response = await axios.post(
+        "https://api.openai.com/v1/chat/completions",
+        data,
+        { headers }
+      );
+      const generatedText = response.data.choices[0].message.content;
+      setGeneratedText(generatedText);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
-    <div className="chatbot-container">
-      <div className="chatbot-header">
-        <h1>Hello</h1>
-        <h3 style={{ color: 'white'}}>Chatbot</h3>
-      </div>
-      <div className="chatbot-body">
-        {/* Chat messages will be displayed here */}
-      </div>
-      <div className="chat-input-container">
-        <input type="text" id="chat-input" className="chat-input" placeholder="Type your message..." />
-        <button id="send-button" className="send-button">Send</button>
+    <div className="wrapper">
+      <label className="label">Enter Prompt: </label>
+      <input
+        className="inputstuff"
+        type="text"
+        value={userInput}
+        onChange={handleUserInputChange}
+      />
+      <button onClick={handleClick}>Generate</button>
+
+      <div>
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <h1 className="generated-text">
+            {generatedText}
+          </h1>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
 export default Chatbot;

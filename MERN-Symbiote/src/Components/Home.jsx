@@ -14,12 +14,12 @@ import Weather from "./Weather";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = "discord";
-  AWS.config.secretAccessKey = "discord";
+  AWS.config.accessKeyId = "here";
+  AWS.config.secretAccessKey = "here";
   AWS.config.region = "us-west-2";
   const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = "discord";
+  const API_KEY = "here";
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
