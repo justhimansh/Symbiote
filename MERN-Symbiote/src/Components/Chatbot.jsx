@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_KEY = "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 "; // Replace with your actual OpenAI API key
+const API_KEY = "Replace with your actual OpenAI API key"; // Replace with your actual OpenAI API key
 
 function Chatbot() {
   const [userInput, setUserInput] = useState("");
@@ -13,30 +13,13 @@ function Chatbot() {
     setUserInput(event.target.value);
   };
 
-  const handleClick = async () => {
-    setIsLoading(true);
-    let response; // Declare the 'response' variable
-    try {
-      response = await generateLetter(userInput);
-      addUserMessage(userInput); // Add the user's input to the conversation
-      addBotMessage(response); // Add the generated message to the conversation
-      setUserInput(""); // Clear the message input box
-    } catch (error) {
-      console.error("Error generating letter:", error);
-    }
-    setIsLoading(false);
-  };
-  
-
   const addUserMessage = (message) => {
     setConversation([...conversation, { role: "user", content: message }]);
   };
-  
+
   const addBotMessage = (message) => {
     setConversation([...conversation, { role: "bot", content: message }]);
   };
-
-
 
   const generateLetter = async (inputText) => {
     const headers = {
@@ -67,36 +50,62 @@ function Chatbot() {
       );
       const generatedText = response.data.choices[0].message.content;
       setGeneratedText(generatedText);
+      return generatedText;
     } catch (error) {
       console.error("Error:", error);
+      throw error;
     }
+  };
 
-    
-    
+  const handleClick = async () => {
+    setIsLoading(true);
+    try {
+      const response = await generateLetter(userInput);
+      addUserMessage(userInput); // Add the user's input to the conversation
+      addBotMessage(response); // Add the generated message to the conversation
+      setUserInput(""); // Clear the message input box
+    } catch (error) {
+      console.error("Error generating letter:", error);
+    }
+    setIsLoading(false);
+  };
+
+  const handleInputKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default Enter behavior (e.g., form submission)
+      handleClick(); // Trigger the button click event
+    }
   };
 
   return (
-      <div className="about-background">
-        <div className="chatbot-wrapper">
-          <div>
-            <p className="generated-text">{generatedText}</p>
-          </div>
-          
-          <label className="label">Hi how can i help? : </label>
-          
-            <input
-              className="inputstuff"
-              type="text"
-              value={userInput}
-              onChange={handleUserInputChange}
-            />
-            <div className="button">
+    <div className="about-background">
+      <div className="chatbot-wrapper">
+        <div>
+          <p className="generated-text">{generatedText}</p>
+        </div>
+        
+        {conversation.map((message, index) => (
+          <p key={index} className={message.role}>
+            {message.content}
+          </p>
+        ))}
+        
+        <label className="label">Hi I am Symbiote. How can I help? : </label>
+        <div >
+          <input
+            className="inputstuff"
+            type="text"
+            value={userInput}
+            onChange={handleUserInputChange}
+            onKeyDown={handleInputKeyDown} // Add key event listener to input
+          />
+          <div className="button">
             <button onClick={handleClick}>Generate</button>
           </div>
         </div>
       </div>
-    );
-    
+    </div>
+  );
 }
 
 export default Chatbot;
