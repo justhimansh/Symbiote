@@ -13,12 +13,12 @@ import { TweenLite, Circ } from "gsap";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = "check discord";
-  AWS.config.secretAccessKey = "check discord";
+  AWS.config.accessKeyId = "AKIAU4MU2XJ4BBWY4MMQ";
+  AWS.config.secretAccessKey = "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";
   AWS.config.region = "us-west-2";
   const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = "check discord";
+  const API_KEY = "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";
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
@@ -37,12 +37,12 @@ function Landing() {
 
   const GPT = async () => {
     counter = counter + 1;
-  
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_KEY}`,
     };
-  
+
     // Check if the user said "bye" and respond before stopping
     if (transcript.toLowerCase().includes("bye")) {
       const goodbyeMessage = "Goodbye!";
@@ -56,7 +56,7 @@ function Landing() {
       }, 2000); // Adjust the delay time as needed
       return;
     }
-    
+
     if (transcript.toLowerCase().includes("news")) {
       window.open("https://www.nzherald.co.nz", "_blank");
       return;
@@ -66,12 +66,12 @@ function Landing() {
       window.open("mail.google.com/mail/", "_blank");
       return;
     }
-  
+
     // Check if the app should continue processing input
     if (!shouldProcessInput) {
       return;
     }
-  
+
     const data = {
       model: "gpt-3.5-turbo",
       messages: [
@@ -83,7 +83,7 @@ function Landing() {
         { role: "user", content: transcript },
       ],
     };
-  
+
     try {
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -97,7 +97,6 @@ function Landing() {
       console.error("Error:", error);
     }
   };
-  
 
   useEffect(() => {
     let timer;
@@ -111,13 +110,39 @@ function Landing() {
     return () => clearTimeout(timer);
   }, [listening]);
 
+  const voices = [
+    { name: "AU Male", VoiceId: "Russell" },
+    { name: "AU Female", VoiceId: "Nicole" },
+    { name: "UK Male", VoiceId: "Brian" },
+    { name: "UK Female", VoiceId: "Amy" },
+    { name: "US Male", VoiceId: "Matthew" },
+    { name: "US Female", VoiceId: "Joanna" },
+  ];
+
+  const [selectedVoice, setSelectedVoice] = useState("Joanna"); // Default voice
+
+  const changeVoice = (newVoice) => {
+    setSelectedVoice(newVoice);
+  };
+
+  <select
+    value={selectedVoice}
+    onChange={(e) => setSelectedVoice(e.target.value)}
+  >
+    {voices.map((voice) => (
+      <option key={voice.voiceId} value={voice.voiceId}>
+        {voice.name}
+      </option>
+    ))}
+  </select>;
+
   const talk = (text) => {
     const polly = new AWS.Polly();
     const params = {
       OutputFormat: "mp3",
       Text: text,
       TextType: "text",
-      VoiceId: "Joanna",
+      VoiceId: selectedVoice, // Use the selected voice here
     };
     polly.synthesizeSpeech(params, function (err, data) {
       if (err) {
@@ -360,39 +385,42 @@ function Landing() {
       }
 
       // Define the API URL
-const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=-36.8485&longitude=174.7635&hourly=temperature_2m,rain,visibility";
+      const apiUrl =
+        "https://api.open-meteo.com/v1/forecast?latitude=-36.8485&longitude=174.7635&hourly=temperature_2m,rain,visibility";
 
-// Initialize variables to store the values
-var temperature = "";
-var rain = "";
-var visibility = "";
+      // Initialize variables to store the values
+      var temperature = "";
+      var rain = "";
+      var visibility = "";
 
-// Fetch data from the API
-fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    // Check if the data contains the required fields
-    if (data.hourly) {
-      // Get the latest values for temperature, rain, and visibility
-      const latestTemperature = data.hourly.temperature_2m[data.hourly.temperature_2m.length - 1];
-          const latestRain = data.hourly.rain[data.hourly.rain.length - 1];
-          const latestVisibility = data.hourly.visibility[data.hourly.visibility.length - 1];
+      // Fetch data from the API
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          // Check if the data contains the required fields
+          if (data.hourly) {
+            // Get the latest values for temperature, rain, and visibility
+            const latestTemperature =
+              data.hourly.temperature_2m[data.hourly.temperature_2m.length - 1];
+            const latestRain = data.hourly.rain[data.hourly.rain.length - 1];
+            const latestVisibility =
+              data.hourly.visibility[data.hourly.visibility.length - 1];
 
-          setTemperature(latestTemperature);
-          setRain(latestRain);
-          setVisibility(latestVisibility);
+            setTemperature(latestTemperature);
+            setRain(latestRain);
+            setVisibility(latestVisibility);
 
-      // Now you can use the temperature, rain, and visibility variables as needed
-      console.log("Temperature:", temperature);
-      console.log("Rain:", rain);
-      console.log("Visibility:", visibility);
-    } else {
-      console.error("Data format is not as expected.");
-    }
-  })
-  .catch(error => {
-    console.error("Error fetching data:", error);
-  });
+            // Now you can use the temperature, rain, and visibility variables as needed
+            console.log("Temperature:", temperature);
+            console.log("Rain:", rain);
+            console.log("Visibility:", visibility);
+          } else {
+            console.error("Data format is not as expected.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
 
       // Initialization
       initHeader();
@@ -408,7 +436,7 @@ fetch(apiUrl)
     );
   }
 
-  function HoverButton(){
+  function HoverButton() {
     var audio = new Audio(sound1);
 
     audio.volume = 0.2;
@@ -416,13 +444,11 @@ fetch(apiUrl)
     audio.play();
   }
 
-
-  function reloadNeeded(){
-    if(counter > 0 ){
+  function reloadNeeded() {
+    if (counter > 0) {
       setTimeout(() => {
         window.location.reload();
       }, 1800);
-      
     }
   }
 
@@ -432,12 +458,11 @@ fetch(apiUrl)
         <canvas id="demo-canvas"></canvas>
         <div className="element">
           <div className="wrapper">
-            
             <div className="widget-info">
-            <h3 className="">     Weather     </h3>
-            <h4 className="info">Temperature: {temperature}°C</h4>
-            <h4 className="info">Rain: {rain}mm</h4>
-            <h4 className="info">Visiability: {visibility}m</h4>
+              <h3 className=""> Weather </h3>
+              <h4 className="info">Temperature: {temperature}°C</h4>
+              <h4 className="info">Rain: {rain}mm</h4>
+              <h4 className="info">Visiability: {visibility}m</h4>
             </div>
           </div>
         </div>
@@ -461,10 +486,38 @@ fetch(apiUrl)
             onClick={() => {
               SpeechRecognition.startListening();
               HoverButton();
-              reloadNeeded();}}
+              reloadNeeded();
+            }}
           >
             Press to interact
           </button>
+          <div>
+            <select
+              value={selectedVoice}
+              onChange={(e) => {
+                setSelectedVoice(e.target.value);
+              }}
+              className="btn btn-three change-voice"
+              style={{
+                backgroundColor: "transparent", // Set the background color to transparent
+                color: "white", // Change the text color to white or any other color you prefer
+                transition: "background-color 0.3s ease", // Add a smooth transition for hover effect
+                cursor: "pointer",
+              }}
+            >
+              {voices.map((voice) => (
+                <option
+                  key={voice.VoiceId}
+                  value={voice.VoiceId}
+                  style={{
+                    backgroundColor: "black",
+                  }}
+                >
+                  {voice.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
     </div>
