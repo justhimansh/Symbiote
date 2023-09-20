@@ -111,13 +111,10 @@ code {
   
   
 }
-
-.chatbot-wrapper{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 30%; 
-  
+/* chatbot */
+.about-background {
+ 
+  padding: 20px; /* Add padding to give space around the chatbot */
 }
 
 .chatbot-container{
@@ -127,6 +124,52 @@ code {
   background-color: #333;
   color: white;
 }
+
+.chatbot-wrapper {
+  background-color: #50516538;
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-top: 144px;
+    padding: 111px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.label {
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.inputstuff {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button {
+  background-color:#263a4e;
+  color: #fff;
+  border: 50px;
+  padding: 10px 30px;
+  margin-top: 20px;
+  margin-right: 450px;
+  border-radius: 20px;
+  cursor: pointer;
+  padding-right: 50px;
+  
+}
+
+
+.generated-text {
+  margin-top: 20px;
+  margin-left: 320px;
+  color:#FFF;
+}
+
+/* chatbot */
 
 .element{
   display: flex;
