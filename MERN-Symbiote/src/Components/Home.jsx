@@ -10,16 +10,15 @@ import sound3 from "../Files/sound3.mp3";
 import Venom from "../Files/symbiote_goo.gif";
 import VenomVoice from "../Files/VenomVoice.mp3";
 import { TweenLite, Circ } from "gsap";
-import Chatbot from "../Components/Chatbot";
-import Whether from "../Components/Whether";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = "AKIAU4MU2XJ4P4KZYN7E";
-  AWS.config.secretAccessKey = "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";
+  AWS.config.accessKeyId = "discord";
+  AWS.config.secretAccessKey = "discord";
   AWS.config.region = "us-west-2";
+  const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = "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  ";
+  const API_KEY = "discord";
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
@@ -27,27 +26,96 @@ function Landing() {
   const [temperature, setTemperature] = useState("");
   const [rain, setRain] = useState("");
   const [visibility, setVisibility] = useState("");
+  var counter = 0;
 
-  const [currentVoice, setCurrentVoice] = useState("Joanna");
-
-
+  useEffect(() => {
+    if (!shouldProcessInput) {
+      SpeechRecognition.abortListening();
+      audioRef.current.pause();
+    }
+  }, [shouldProcessInput]);
 
   const GPT = async () => {
+    counter = counter + 1;
+  
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_KEY}`,
     };
+  
+    // Check if the user said "bye" and respond before stopping
+    if (transcript.toLowerCase().includes("bye")) {
+      const goodbyeMessage = "Goodbye!";
+      setResponseText(goodbyeMessage);
+      talk(goodbyeMessage);
+
+      // Pause for a moment to let the "Goodbye!" message finish before stopping
+      setTimeout(() => {
+        // Set a state variable to indicate that the app should not process further input
+        setShouldProcessInput(false);
+      }, 2000); // Adjust the delay time as needed
+      return;
+    }
+
+    if (transcript.toLowerCase().includes("stop")) {
+      const goodbyeMessage = "Goodbye!";
+      setResponseText(goodbyeMessage);
+      talk(goodbyeMessage);
+
+      // Pause for a moment to let the "Goodbye!" message finish before stopping
+      setTimeout(() => {
+        // Set a state variable to indicate that the app should not process further input
+        setShouldProcessInput(false);
+      }, 2000); // Adjust the delay time as needed
+      return;
+    }
+
+    if (transcript.toLowerCase().includes("goodbye")) {
+      const goodbyeMessage = "Goodbye!";
+      setResponseText(goodbyeMessage);
+      talk(goodbyeMessage);
+
+      // Pause for a moment to let the "Goodbye!" message finish before stopping
+      setTimeout(() => {
+        // Set a state variable to indicate that the app should not process further input
+        setShouldProcessInput(false);
+      }, 2000); // Adjust the delay time as needed
+      return;
+    }
+    
+    
+    if (transcript.toLowerCase().includes("news")) {
+      window.open("https://www.nzherald.co.nz", "_blank");
+      return;
+    }
+
+    if (transcript.toLowerCase().includes("email")) {
+      window.open("https://mail.google.com/mail/", "_blank");
+      return;
+    }
+
+    if (transcript.toLowerCase().includes("instagram")) {
+      window.open("https://www.instagram.com", "_blank");
+      return;
+    }
+  
+    // Check if the app should continue processing input
+    if (!shouldProcessInput) {
+      return;
+    }
+  
     const data = {
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
           content:
-            "Pretend you're a personal assistant. Limit your responses to 2 sentences MAX. Start off by saying Hello, How I am Symbiote. How may I assit you today?",
+            "Pretend you're a personal assistant. Limit your responses to 2 sentences MAX.",
         },
         { role: "user", content: transcript },
       ],
     };
+  
     try {
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -62,6 +130,7 @@ function Landing() {
     }
   };
 
+
   useEffect(() => {
     let timer;
     if (listening) {
@@ -74,13 +143,39 @@ function Landing() {
     return () => clearTimeout(timer);
   }, [listening]);
 
+  const voices = [
+    { name: "AU Male", VoiceId: "Russell" },
+    { name: "AU Female", VoiceId: "Nicole" },
+    { name: "UK Male", VoiceId: "Brian" },
+    { name: "UK Female", VoiceId: "Amy" },
+    { name: "US Male", VoiceId: "Matthew" },
+    { name: "US Female", VoiceId: "Joanna" },
+  ];
+
+  const [selectedVoice, setSelectedVoice] = useState("Joanna"); // Default voice
+
+  const changeVoice = (newVoice) => {
+    setSelectedVoice(newVoice);
+  };
+
+  <select
+    value={selectedVoice}
+    onChange={(e) => setSelectedVoice(e.target.value)}
+  >
+    {voices.map((voice) => (
+      <option key={voice.voiceId} value={voice.voiceId}>
+        {voice.name}
+      </option>
+    ))}
+  </select>;
+
   const talk = (text) => {
     const polly = new AWS.Polly();
     const params = {
       OutputFormat: "mp3",
       Text: text,
       TextType: "text",
-      VoiceId: "Joanna",
+      VoiceId: selectedVoice, // Use the selected voice here
     };
     polly.synthesizeSpeech(params, function (err, data) {
       if (err) {
@@ -101,7 +196,6 @@ function Landing() {
       }
     });
   };
-  
 
   function SoundEffectButton() {
     const effects = [sound1, sound2, sound3, VenomVoice];
@@ -324,39 +418,42 @@ function Landing() {
       }
 
       // Define the API URL
-const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=-36.8485&longitude=174.7635&hourly=temperature_2m,rain,visibility";
+      const apiUrl =
+        "https://api.open-meteo.com/v1/forecast?latitude=-36.8485&longitude=174.7635&hourly=temperature_2m,rain,visibility";
 
-// Initialize variables to store the values
-var temperature = "";
-var rain = "";
-var visibility = "";
+      // Initialize variables to store the values
+      var temperature = "";
+      var rain = "";
+      var visibility = "";
 
-// Fetch data from the API
-fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    // Check if the data contains the required fields
-    if (data.hourly) {
-      // Get the latest values for temperature, rain, and visibility
-      const latestTemperature = data.hourly.temperature_2m[data.hourly.temperature_2m.length - 1];
-          const latestRain = data.hourly.rain[data.hourly.rain.length - 1];
-          const latestVisibility = data.hourly.visibility[data.hourly.visibility.length - 1];
+      // Fetch data from the API
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          // Check if the data contains the required fields
+          if (data.hourly) {
+            // Get the latest values for temperature, rain, and visibility
+            const latestTemperature =
+              data.hourly.temperature_2m[data.hourly.temperature_2m.length - 1];
+            const latestRain = data.hourly.rain[data.hourly.rain.length - 1];
+            const latestVisibility =
+              data.hourly.visibility[data.hourly.visibility.length - 1];
 
-          setTemperature(latestTemperature);
-          setRain(latestRain);
-          setVisibility(latestVisibility);
+            setTemperature(latestTemperature);
+            setRain(latestRain);
+            setVisibility(latestVisibility);
 
-      // Now you can use the temperature, rain, and visibility variables as needed
-      console.log("Temperature:", temperature);
-      console.log("Rain:", rain);
-      console.log("Visibility:", visibility);
-    } else {
-      console.error("Data format is not as expected.");
-    }
-  })
-  .catch(error => {
-    console.error("Error fetching data:", error);
-  });
+            // Now you can use the temperature, rain, and visibility variables as needed
+            console.log("Temperature:", temperature);
+            console.log("Rain:", rain);
+            console.log("Visibility:", visibility);
+          } else {
+            console.error("Data format is not as expected.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
 
       // Initialization
       initHeader();
@@ -372,25 +469,37 @@ fetch(apiUrl)
     );
   }
 
+  function HoverButton() {
+    var audio = new Audio(sound1);
+
+    audio.volume = 0.2;
+
+    audio.play();
+  }
+
+  function reloadNeeded() {
+    if (counter > 0) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1800);
+    }
+  }
+
   return (
     <div style={{}}>
       <div id="large-header" className="large-header">
         <canvas id="demo-canvas"></canvas>
         <div className="element">
           <div className="wrapper">
-            
             <div className="widget-info">
-            <h3 className="">     Weather     </h3>
-            <h4 className="info">Temperature: {temperature}°C</h4>
-            <h4 className="info">Rain: {rain}mm</h4>
-            <h4 className="info">Visiability: {visibility}m</h4>
+              <h3 className=""> Weather </h3>
+              <h4 className="info">Temperature: {temperature}°C</h4>
+              <h4 className="info">Rain: {rain}mm</h4>
+              <h4 className="info">Visiability: {visibility}m</h4>
             </div>
           </div>
         </div>
-      <div>
-        <Chatbot />
-        <Whether />
-      </div>
+
         {/* <h1 className="main-title">Welcome to <span className="thin">Symbiote</span></h1> */}
         <div className="element">
           {listening}
@@ -407,16 +516,44 @@ fetch(apiUrl)
           <h3 className="response">{responseText}</h3>
           <button
             className="btn btn-three press"
-            onClick={() => SpeechRecognition.startListening()}
+            onClick={() => {
+              SpeechRecognition.startListening();
+              HoverButton();
+              reloadNeeded();
+            }}
           >
             Press to interact
-            
           </button>
-          
+          <div>
+            <select
+              value={selectedVoice}
+              onChange={(e) => {
+                setSelectedVoice(e.target.value);
+              }}
+              className="btn btn-three change-voice"
+              style={{
+                backgroundColor: "transparent", // Set the background color to transparent
+                color: "white", // Change the text color to white or any other color you prefer
+                transition: "background-color 0.3s ease", // Add a smooth transition for hover effect
+                cursor: "pointer",
+              }}
+            >
+              {voices.map((voice) => (
+                <option
+                  key={voice.VoiceId}
+                  value={voice.VoiceId}
+                  style={{
+                    backgroundColor: "black",
+                  }}
+                >
+                  {voice.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-    </div>
       </div>
-    
+    </div>
   );
 }
 
