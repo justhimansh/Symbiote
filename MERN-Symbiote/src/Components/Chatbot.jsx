@@ -80,15 +80,20 @@ function Chatbot() {
   return (
     <div className="about-background">
       <div className="chatbot-wrapper">
-        <div>
+        {/* <div>
           <p className="generated-text">{generatedText}</p>
-        </div>
+        </div> */}
         
-        {conversation.map((message, index) => (
-          <p key={index} className={message.role}>
-            {message.content}
-          </p>
-        ))}
+        <div className="message-container">
+              {conversation.map((message, index) => (
+              <p key={index} className={`message ${message.role}`}>
+              {message.content}
+              </p>
+            ))}
+            {/* <p className={`generated-text ${generatedText ? "white-text" : ""}`}>
+            {generatedText}
+           </p> */}
+        </div>
         
         <label className="label">Hi I am Symbiote. How can I help? : </label>
         <div >
@@ -100,7 +105,7 @@ function Chatbot() {
             onKeyDown={handleInputKeyDown} // Add key event listener to input
           />
           <div className="button">
-            <button className="gen-button" onClick={handleClick}>Generate</button>
+            <button onClick={handleClick}>Generate</button>
           </div>
         </div>
       </div>

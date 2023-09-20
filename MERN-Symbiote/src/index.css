@@ -135,7 +135,6 @@ color: white;
 }
 /* chatbot */
 .about-background {
- 
   padding: 20px; /* Add padding to give space around the chatbot */
 }
 
@@ -155,9 +154,11 @@ color: white;
     padding: 111px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
 }
 
 .label {
+  margin-top:px;
   font-size: 18px;
   color: #fff;
   font-weight: bold;
@@ -186,6 +187,8 @@ color: white;
 }
 p {
   color:#fff;
+  margin-top: 20px;
+  margin-left: 320px;
 }
 
 .generated-text {
@@ -193,6 +196,28 @@ p {
   margin-left: 320px;
   color:#FFF;
 }
+.message-container {
+  max-height: 400px; /* Adjust the maximum height as needed */
+  overflow-y: auto;
+  border: 1px solid #ccc; /* Add a border for better separation */
+  padding: 70px;
+  margin-bottom:50px;
+  background-color: #0a101c; /* Set background color for the container */
+}
+
+.message {
+  margin: 5px 0;
+  margin-left: -50px;
+}
+
+.message.user {
+  text-align: right;
+}
+
+.white-text {
+  color: white;
+}
+
 
 /* chatbot */
 
