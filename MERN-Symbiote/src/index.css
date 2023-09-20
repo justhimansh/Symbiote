@@ -7,9 +7,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.pic{
+  display: flex;
+  padding-top: 12px;
+  max-height: 350px;
+  padding-left: 50%;
+  align-items: center;
+  left: 50%;
+  
+}
+
+.pic-container{
+  display: flex;
+  align-items: c;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.gen-button{
+  padding: 0;
+border: none;
+background: none;
+color: white;
 }
 
 /* Header */

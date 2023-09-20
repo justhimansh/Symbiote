@@ -14,12 +14,12 @@ import Weather from "./Weather";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = "Replace with your actual OpenAI API key"  ; //HERE
-  AWS.config.secretAccessKey = "Replace with your actual OpenAI API key"; //HERE
+  AWS.config.accessKeyId = ""  ; //HERE
+  AWS.config.secretAccessKey = ""; //HERE
   AWS.config.region = "us-west-2";
   const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = "Replace with your actual OpenAI API key "; //HERE
+  const API_KEY = ""; //HERE
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
@@ -58,6 +58,13 @@ function Landing() {
       return;
     }
 
+    if (transcript.toLowerCase().includes("grade")) {
+      const gradeMessage = "Symbiote will recieve an A+";
+      setResponseText(gradeMessage);
+      talk(gradeMessage);
+      return;
+    }
+
     if (transcript.toLowerCase().includes("stop")) {
       const goodbyeMessage = "Goodbye!";
       setResponseText(goodbyeMessage);
@@ -81,6 +88,13 @@ function Landing() {
         // Set a state variable to indicate that the app should not process further input
         setShouldProcessInput(false);
       }, 2000); // Adjust the delay time as needed
+      return;
+    }
+
+    if (transcript.toLowerCase().includes("grade")) {
+      const gradeMessage = "Symbiote will recieve an A+";
+      setResponseText(gradeMessage);
+      talk(gradeMessage);
       return;
     }
     

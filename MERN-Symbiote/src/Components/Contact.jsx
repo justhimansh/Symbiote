@@ -13,7 +13,7 @@ export default function Contact() {
                     </div>
                     <div className="row">
                         <div className="col-md-6">
-                            <img src="/Images/Contact.jpg" alt="Contact" className='w-75'/>
+                            {/* <img src="/Images/Contact.jpg" alt="Contact" className='w-75'/> */}
                         </div>
                     </div>
                     <div className='col-md-6'>

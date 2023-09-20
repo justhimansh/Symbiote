@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_KEY = "Replace with your actual OpenAI API key"; // Replace with your actual OpenAI API key
+const API_KEY = ""; // Replace with your actual OpenAI API key
 
 function Chatbot() {
   const [userInput, setUserInput] = useState("");
@@ -100,7 +100,7 @@ function Chatbot() {
             onKeyDown={handleInputKeyDown} // Add key event listener to input
           />
           <div className="button">
-            <button onClick={handleClick}>Generate</button>
+            <button className="gen-button" onClick={handleClick}>Generate</button>
           </div>
         </div>
       </div>
