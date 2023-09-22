@@ -103,6 +103,7 @@ color: white;
 /* Cards */
 .card{
   transition: all 0.5s ease;
+  max-height: 200px;
 }
 
 .card{

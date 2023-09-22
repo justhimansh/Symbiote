@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import sound from "../Files/generateSound.mp3";
 
 const API_KEY = ""; // Replace with your actual OpenAI API key
 
@@ -77,6 +78,14 @@ function Chatbot() {
     }
   };
 
+  function playSound(){
+    var audio = new Audio(sound);
+
+    audio.volume = 0.2;
+
+    audio.play();
+  }
+
   return (
     <div className="about-background">
       <div className="chatbot-wrapper">
@@ -105,7 +114,10 @@ function Chatbot() {
             onKeyDown={handleInputKeyDown} // Add key event listener to input
           />
           <div className="button">
-            <button onClick={handleClick}>Generate</button>
+            <button onClick={() => {
+              handleClick();
+              playSound();
+            }}>Generate</button>
           </div>
         </div>
       </div>
