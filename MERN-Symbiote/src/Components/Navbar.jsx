@@ -23,6 +23,9 @@ const Navbar = () => {
                   <li class="nav-item">
                     <NavLink className="nav-link" to="/chatbot">Chat Bot</NavLink>
                   </li>
+                  <li class="nav-item">
+                    <NavLink className="nav-link" to="/video">Video</NavLink>
+                  </li>
                 </ul>
                 <NavLink className="navbar-brand fw-bolder fs-4 mx-auto"to="/">Symbiote</NavLink>
                   <NavLink to="/login" className="btn btn-light ms-auto px-4 rounded-pill"><i className="fa fa-sign-in me-2"></i>Login</NavLink>

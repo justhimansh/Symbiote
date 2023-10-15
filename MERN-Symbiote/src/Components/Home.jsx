@@ -14,12 +14,12 @@ import Weather from "./Weather";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = ""  ; //HERE
-  AWS.config.secretAccessKey = ""; //HERE
+  AWS.config.accessKeyId = "AKIAU4MU2XJ4KH2XMZBM"  ; //HERE
+  AWS.config.secretAccessKey = "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"; //HERE
   AWS.config.region = "us-west-2";
   const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = ""; //HERE
+  const API_KEY = "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"; //HERE
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");

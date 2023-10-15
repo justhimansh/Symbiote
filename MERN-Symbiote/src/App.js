@@ -8,6 +8,7 @@ import Register from './Components/Register';
 import { Route, Switch } from 'react-router-dom';
 import Contact from './Components/Contact';
 import Chatbot from './Components/Chatbot';
+import Video from './Components/Video'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route exact path='/register' component={Register}/>
         <Route exact path='/contact' component={Contact}/>
         <Route exact path='/chatbot' component={Chatbot}/>
+        <Route exact path='/video' component={Video}/>
       </Switch>
     </>
   );
