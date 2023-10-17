@@ -8,7 +8,7 @@ const app = express();
 
 dotenv.config({path : './config.env'});
 require('./db/conn');
-const port = process.emitWarning.PORT;
+const port = process.env.PORT;
 
 const Users = require('./models/userSchema');
 
@@ -22,23 +22,46 @@ app.get('/', (req, res)=>{
 
 app.post('/register', async (req, res)=>{
     try {
-        const username = req.body.username;
         const email = req.body.email;
         const password = req.body.password;
+        const repassword = req.body.repassword;
 
         const createUser = new Users({
-            username : username,
             email : email,
-            password : password
+            password : password,
+            repassword : repassword
         });
 
-        const created = await createUser.save(); 
+        const created = await createUser.save();
         console.log(created);
-        res.status(400).send(error)
+        res.status(200).send("Success");
+
     } catch (error) {
-        
+        res.status(400).send(error.messsage)
     }
 })
+
+app.post('/register', async (req, res) => {
+    try {
+      const email = req.body.email;
+      const password = req.body.password;
+      const repassword = req.body.repassword;
+  
+      const createUser = new Users({
+        email: email,
+        password: password,
+        repassword: repassword,
+      });
+  
+      const created = await createUser.save();
+      console.log(created);
+  
+      res.status(200).send("Success");
+    } catch (error) {
+      console.error('Registration Error:', error);
+      res.status(400).send(error.message);
+    }
+  });
  
 app.listen(port, ()=>{
     console.log("Server is Listening")

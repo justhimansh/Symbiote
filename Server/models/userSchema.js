@@ -1,45 +1,48 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
-const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 
-const useSchema = new mongoose.useSchema({
-    username : {
-        rtpe : String,
-        reqired : true,
-        unique : true
+const userSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-    email : {
-        type : Sting,
-        required : true,
-        unique : true
+    password: {
+        type: String,
+        required: true
     },
-    password : {
-        type : Sting,
-        required : true
+    repassword: {
+        type: String,
+        required: true
     },
-    tokens :{
-        token : String,
-        required : true
-    }
-})
+    tokens: [
+        {
+            token: {
+                type: String, // Removed the unnecessary 'token' object
+                required: true
+            }
+        }
+    ]
+});
 
-useSchema.pre('save', async function(next){
-    if(this.isModified('password')){
+userSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
         this.password = bcryptjs.hashSync(this.password, 10);
     }
     next();
-})
+});
 
-userSchema.methods.generateToken = async function(){
-    try{
-        let generatedToken = jwt.sign({_id : this._id}, process.env.SECRET_KEY);
-        this.tokens = this.tokens.concat({token : generatedToken}); 
-         await this.save();
-         return generatedToken;
-    }catch (error){
-        console.log(error)
+userSchema.methods.generateToken = async function() {
+    try {
+        let generateToken = jwt.sign({ _id: this._id }, process.env.SECRET_KEY); // Used process.env.SECRET_KEY
+        this.tokens = this.tokens.concat({ token: generateToken });
+        await this.save();
+        return generateToken;
+    } catch (error) {
+        console.log(error);
     }
-}
+};
 
 const Users = new mongoose.model("USER", userSchema);
 

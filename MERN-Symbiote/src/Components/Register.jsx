@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom'
 
 export function Register() {
     // A custom validation function. This must return an object
 
     // which keys are symmetrical to our values/initialValues
+    const history = useHistory();
 
     const validate = values => {
         const errors = {}
@@ -31,25 +33,46 @@ export function Register() {
 
         return errors
     }
+    
+    const handleSubmit = async (values) => {
+        try {
+          const response = await fetch('/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+          });
+  
+          if (response.status === 400 || !response) {
+              // Registration failed, handle the error
+            window.alert('Email and Password Used')
+          } else {
+            // Registration was successful
+            window.alert('Registration Successful');
+              history.pushState('/login')
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          // Handle the error, show an error message, etc.
+        }
+      }
 
     const formik = useFormik({
-
         initialValues: {
-            email: '',
-            password: '',
-            repassword: ''
+          email: '',
+          password: '',
+          repassword: '',
         },
         validate,
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2))
-        }
+        onSubmit : handleSubmit,
+      });
 
-    })
-
-    return (<div className="row justify-content-center">
+    return (
+    <div className="row justify-content-center">
         <div className="col-md-5 p-5">
             < h1 className="display-6 fw-bolder mb-4" > REGISTER</h1>
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit} method='POST'>
                 <div class="mb-3" >
                     <label htmlFor="email">Email Address</label>
                     <input
