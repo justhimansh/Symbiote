@@ -36,6 +36,34 @@ function Landing() {
     }
   }, [shouldProcessInput]);
 
+  // Function to start listening when Shift + Enter is pressed
+  const handleShiftEnter = (event) => {
+    if (event.key === "Enter" && event.shiftKey) {
+      SpeechRecognition.startListening();
+      HoverButton();
+      // reloadNeeded();
+    }
+  };
+
+  // Function to stop listening when Shift + Backspace is pressed
+  const handleShiftBackspace = (event) => {
+    if (event.key === "Backspace" && event.shiftKey) {
+      SpeechRecognition.stopListening();
+    }
+  };
+
+  // Add event listeners to the document for Shift + Enter and Shift + Backspace
+  useEffect(() => {
+    document.addEventListener("keydown", handleShiftEnter);
+    document.addEventListener("keydown", handleShiftBackspace);
+    return () => {
+      document.removeEventListener("keydown", handleShiftEnter);
+      document.removeEventListener("keydown", handleShiftBackspace);
+    };
+  }, []);
+
+  
+
   const GPT = async () => {
     counter = counter + 1;
   
