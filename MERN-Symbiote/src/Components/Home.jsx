@@ -3,6 +3,7 @@ import axios from "axios";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import AWS from "aws-sdk"; 
 import sound1 from "../Files/sound1.mp3";
 import sound2 from "../Files/sound2.mp3";
 import sound3 from "../Files/sound3.mp3";
@@ -212,33 +213,63 @@ function Landing() {
     ))}
   </select>;
 
-  const talk = (text) => {
-    const polly = new AWS.Polly();
-    const params = {
-      OutputFormat: "mp3",
-      Text: text,
-      TextType: "text",
-      VoiceId: selectedVoice, // Use the selected voice here
-    };
-    polly.synthesizeSpeech(params, function (err, data) {
-      if (err) {
-        console.log(err, err.stack);
-      } else {
-        const uInt8Array = new Uint8Array(data.AudioStream);
-        const arrayBuffer = uInt8Array.buffer;
-        const blob = new Blob([arrayBuffer]);
-        if (audioRef.current) {
-          audioRef.current.src = URL.createObjectURL(blob);
-          audioRef.current.play().catch((error) => {
-            console.warn("Playback was not triggered by a user action.", error);
-          });
-          audioRef.current.addEventListener("ended", () => {
-            SpeechRecognition.startListening();
-          });
-        }
-      }
-    });
+const talk = (text) => {
+  const polly = new AWS.Polly();
+  const params = {
+    OutputFormat: "mp3",
+    Text: text,
+    TextType: "text",
+    VoiceId: selectedVoice, // Use the selected voice here
   };
+  polly.synthesizeSpeech(params, function (err, data) {
+    if (err) {
+      console.log(err, err.stack);
+    } else {
+      const uInt8Array = new Uint8Array(data.AudioStream);
+      const arrayBuffer = uInt8Array.buffer;
+      const blob = new Blob([arrayBuffer]);
+      if (audioRef.current) {
+        audioRef.current.src = URL.createObjectURL(blob);
+        audioRef.current.play().catch((error) => {
+          console.warn("Playback was not triggered by a user action.", error);
+        });
+        audioRef.current.addEventListener("ended", () => {
+          SpeechRecognition.startListening();
+        });
+      }
+    }
+  });
+};
+
+
+  //multilingual-------------------------------------------------------------------------------------------------//
+  const [selectedLanguage, setSelectedLanguage] = useState("en"); // Default language
+
+  const [languages, setLanguages] = useState([
+    { code: "en", name: "English" },
+    { code: "fr", name: "French" },
+    { code: "es", name: "Spanish" },
+    // Add more languages as needed
+  ]);
+
+  const handleLanguageChange = (newLanguage) => {
+    setSelectedLanguage(newLanguage);
+  };
+
+  const languageDropdown = (
+    <select
+      value={selectedLanguage}
+      onChange={(e) => handleLanguageChange(e.target.value)}
+      className="btn btn-three change-voice"
+    >
+      {languages.map((language) => (
+        <option key={language.code} value={language.code}>
+          {language.name}
+        </option>
+      ))}
+    </select>
+  );
+//multilingual-------------------------------------------------------------------------------------------------//
 
   function SoundEffectButton() {
     const effects = [sound1, sound2, sound3, VenomVoice];
@@ -567,6 +598,7 @@ function Landing() {
           >
             Press to interact
           </button>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div>
             <select
               value={selectedVoice}
@@ -594,6 +626,26 @@ function Landing() {
               ))}
             </select>
           </div>
+
+         <select
+            value={selectedLanguage}//language dropdown//
+            onChange={(e) => handleLanguageChange(e.target.value)}
+            className="btn btn-three change-voice"
+            style={{
+              backgroundColor: "transparent",
+              color: "white",
+              transition: "background-color 0.3s ease",
+              cursor: "pointer",
+            }}
+          >
+            {languages.map((language) => (
+              <option key={language.code} value={language.code}>
+                {language.name}
+              </option>
+            ))}            
+          </select>
+        </div>
+
         </div>
       </div>
     </div>
