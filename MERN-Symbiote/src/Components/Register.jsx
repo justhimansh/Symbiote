@@ -50,7 +50,7 @@ export function Register() {
           } else {
             // Registration was successful
             window.alert('Registration Successful');
-              history.pushState('/login')
+              history.push('/login')
           }
         } catch (error) {
           console.error('Error:', error);
@@ -72,7 +72,7 @@ export function Register() {
     <div className="row justify-content-center">
         <div className="col-md-5 p-5">
             < h1 className="display-6 fw-bolder mb-4" > REGISTER</h1>
-            <form onSubmit={formik.handleSubmit} method='POST'>
+            <form onSubmit={formik.handleSubmit}>
                 <div class="mb-3" >
                     <label htmlFor="email">Email Address</label>
                     <input

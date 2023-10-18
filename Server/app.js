@@ -25,7 +25,7 @@ app.post('/register', async (req, res)=>{
         const email = req.body.email;
         const password = req.body.password;
         const repassword = req.body.repassword;
-
+        
         const createUser = new Users({
             email : email,
             password : password,
@@ -34,32 +34,43 @@ app.post('/register', async (req, res)=>{
 
         const created = await createUser.save();
         console.log(created);
-        res.status(200).send("Success");
+        res.status(200).send(created);
 
     } catch (error) {
-        res.status(400).send(error.messsage)
+        res.status(400).send("Invalid")
     }
 })
 
-app.post('/register', async (req, res) => {
+app.post('/login', async (req, res) => {
     try {
       const email = req.body.email;
       const password = req.body.password;
-      const repassword = req.body.repassword;
   
       const createUser = new Users({
         email: email,
         password: password,
-        repassword: repassword,
       });
   
-      const created = await createUser.save();
-      console.log(created);
-  
-      res.status(200).send("Success");
+      const user = await Users.findOne({email : email});
+      if(user){
+        const isMatch = await bcryptjs.compare(password, user.password);
+
+        if(isMatch){
+          const token = await user.generateToken();
+          res.cookie("jwt", token, {
+            expires : new Date(Date.now() + 86400000),
+            httpOnly : true
+          })
+
+          res.status(200).send("Success");
+        }else{
+          res.status(400).send("Invalid");
+        }
+      }else{
+        res.status(400).send("Invalid");
+      }
     } catch (error) {
-      console.error('Registration Error:', error);
-      res.status(400).send(error.message);
+      res.status(400).send("Invalid");
     }
   });
  

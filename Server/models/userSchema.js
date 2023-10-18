@@ -24,14 +24,14 @@ const userSchema = new mongoose.Schema({
             }
         }
     ]
-});
+})
 
 userSchema.pre('save', async function(next) {
     if (this.isModified('password')) {
         this.password = bcryptjs.hashSync(this.password, 10);
     }
     next();
-});
+})
 
 userSchema.methods.generateToken = async function() {
     try {
@@ -42,7 +42,7 @@ userSchema.methods.generateToken = async function() {
     } catch (error) {
         console.log(error);
     }
-};
+}
 
 const Users = new mongoose.model("USER", userSchema);
 
