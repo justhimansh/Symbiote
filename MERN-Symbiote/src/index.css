@@ -45,7 +45,69 @@ color: white;
 	z-index: 1;
 }
 
-#large-header {
+.spotifyWidget{
+  padding-right: 50px;
+  display: flex;
+  
+}
+.quoteContainer{
+  max-width: 400px;
+  margin-top: 50px;
+  font-size: 32px; /* You missed the unit. I assumed px. */
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for depth */
+  backdrop-filter: blur(7px); /* This creates the frosted glass effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow for depth */
+}
+
+.navbar-brand{
+  padding-right: 220px;
+  color: white !important;
+}
+
+.nav-link{
+  color: white !important;
+}
+
+.colorDiv{
+  
+  padding: 18px;
+  border-radius: 18px;
+  width: 400px;
+  max-width: 400px;
+  
+  font-size: 32px; /* You missed the unit. I assumed px. */
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for depth */
+  backdrop-filter: blur(7px); /* This creates the frosted glass effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow for depth */
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-around;
+}
+
+.changeWallpaper{
+  margin-top: 50px;
+  font-size: 32px; /* You missed the unit. I assumed px. */
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for depth */
+  backdrop-filter: blur(7px); /* This creates the frosted glass effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow for depth */
+}
+
+.newWidget{
+  padding-left: 800px;
+}
+
+.large-header {
   /* change wallpaper here */
 	background-image: url(Files/space.jpg);
   
@@ -71,7 +133,9 @@ color: white;
 
 /* maybe make this look cooler */
 .widget-info{
+  position: absolute;
   margin-left: 1300px;
+  margin-bottom: 800px;
   background-color: #333;
   border-radius: 12px;
   flex-direction: column;
@@ -79,6 +143,7 @@ color: white;
   padding: 28px;
   padding-left: 40px;
   padding-right: 40px;
+  ;
 }
 
 .info{
@@ -92,6 +157,33 @@ color: white;
 .navbar{
   background-color: rgb(63, 63, 63);
 }
+
+.app{
+  background-color: #0a101c !important;
+}
+
+.App {
+  background-color: black !important; 
+}
+
+.App-header {
+  background: black !important;
+}
+
+.wallpaper{
+  background-color: #0a101c;
+}
+
+.wallpaperButtons{
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
 
 .about-background {
   background-image: url("Files/space.jpg"); 
@@ -111,6 +203,8 @@ color: white;
   cursor: pointer;
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
 }
+
+
 
 /* .main-title {
 	position: absolute;
@@ -134,6 +228,40 @@ color: white;
   
   
 }
+
+.gametitle{
+  color: white;
+}
+
+.winningNumber{
+  margin: 0;
+}
+
+.game-border{
+  
+}
+
+.Games{
+  display: flex;
+  height: 100vh;
+  justify-content: space-evenly;
+  background-color: #333;
+  margin: 0 auto;
+}
+
+.Game1 {
+   width: 526px;
+   padding-right: ;
+}
+
+.Game2 {
+  margin: 0 auto;
+}
+
+.Game3 {
+  margin: 0 auto;
+}
+
 /* chatbot */
 .about-background {
   padding: 20px; /* Add padding to give space around the chatbot */

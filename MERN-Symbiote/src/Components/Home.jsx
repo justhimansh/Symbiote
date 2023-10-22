@@ -3,7 +3,7 @@ import axios from "axios";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import AWS from "aws-sdk"; 
+import AWS from "aws-sdk";
 import sound1 from "../Files/sound1.mp3";
 import sound2 from "../Files/sound2.mp3";
 import sound3 from "../Files/sound3.mp3";
@@ -12,15 +12,22 @@ import Venom from "../Files/symbiote_goo.gif";
 import VenomVoice from "../Files/VenomVoice.mp3";
 import { TweenLite, Circ } from "gsap";
 import Weather from "./Weather";
+import SpotifyPlayer from "./SpotifyPlayer";
+import spaceImage from "../Files/space.jpg";
+import spaceImage2 from "../Files/space1.jpg";
+import spaceImage3 from "../Files/space2.jpg";
+import spaceImage4 from "../Files/space3.jpeg";
+import spaceImage5 from "../Files/space4.jpg";
+import spaceImage6 from "../Files/space.jpg";
 
 function Landing() {
   var AWS = require("aws-sdk");
-  AWS.config.accessKeyId = "AKIAU4MU2XJ4KH2XMZBM"  ; //HERE
-  AWS.config.secretAccessKey = "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"; //HERE
+  AWS.config.accessKeyId = ""; //HERE
+  AWS.config.secretAccessKey = ""; //HERE
   AWS.config.region = "us-west-2";
   const [shouldProcessInput, setShouldProcessInput] = useState(true);
 
-  const API_KEY = "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"; //HERE
+  const API_KEY = ""; //HERE
 
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [responseText, setResponseText] = useState("");
@@ -28,7 +35,12 @@ function Landing() {
   const [temperature, setTemperature] = useState("");
   const [rain, setRain] = useState("");
   const [visibility, setVisibility] = useState("");
+  const [bgImage, setBgImage] = useState(spaceImage);
+
+  const useQuote = "Loading...";
   var counter = 0;
+
+  fetchQuote();
 
   useEffect(() => {
     if (!shouldProcessInput) {
@@ -63,16 +75,45 @@ function Landing() {
     };
   }, []);
 
-  
+  function fetchQuote(category = "happiness") {
+    const url = `https://api.api-ninjas.com/v1/quotes?category=${category}`;
+    const options = {
+      headers: {
+        "X-Api-Key": "",
+      },
+    };
+
+    fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.length > 0) {
+          const quote = data[0].quote;
+          const author = data[0].author;
+          document.getElementById(
+            "quoteText"
+          ).textContent = `"${quote}" - ${author}`;
+        } else {
+          console.log("No quote found");
+        }
+      })
+      .catch((error) => {
+        console.error("Request failed:", error);
+      });
+  }
 
   const GPT = async () => {
     counter = counter + 1;
-  
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_KEY}`,
     };
-  
+
     // Check if the user said "bye" and respond before stopping
     if (transcript.toLowerCase().includes("bye")) {
       const goodbyeMessage = "Goodbye!";
@@ -126,8 +167,7 @@ function Landing() {
       talk(gradeMessage);
       return;
     }
-    
-    
+
     if (transcript.toLowerCase().includes("news")) {
       window.open("https://www.nzherald.co.nz", "_blank");
       return;
@@ -142,12 +182,12 @@ function Landing() {
       window.open("https://www.instagram.com", "_blank");
       return;
     }
-  
+
     // Check if the app should continue processing input
     if (!shouldProcessInput) {
       return;
     }
-  
+
     const data = {
       model: "gpt-3.5-turbo",
       messages: [
@@ -159,7 +199,7 @@ function Landing() {
         { role: "user", content: transcript },
       ],
     };
-  
+
     try {
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -173,7 +213,6 @@ function Landing() {
       console.error("Error:", error);
     }
   };
-
 
   useEffect(() => {
     let timer;
@@ -213,34 +252,33 @@ function Landing() {
     ))}
   </select>;
 
-const talk = (text) => {
-  const polly = new AWS.Polly();
-  const params = {
-    OutputFormat: "mp3",
-    Text: text,
-    TextType: "text",
-    VoiceId: selectedVoice, // Use the selected voice here
-  };
-  polly.synthesizeSpeech(params, function (err, data) {
-    if (err) {
-      console.log(err, err.stack);
-    } else {
-      const uInt8Array = new Uint8Array(data.AudioStream);
-      const arrayBuffer = uInt8Array.buffer;
-      const blob = new Blob([arrayBuffer]);
-      if (audioRef.current) {
-        audioRef.current.src = URL.createObjectURL(blob);
-        audioRef.current.play().catch((error) => {
-          console.warn("Playback was not triggered by a user action.", error);
-        });
-        audioRef.current.addEventListener("ended", () => {
-          SpeechRecognition.startListening();
-        });
+  const talk = (text) => {
+    const polly = new AWS.Polly();
+    const params = {
+      OutputFormat: "mp3",
+      Text: text,
+      TextType: "text",
+      VoiceId: selectedVoice, // Use the selected voice here
+    };
+    polly.synthesizeSpeech(params, function (err, data) {
+      if (err) {
+        console.log(err, err.stack);
+      } else {
+        const uInt8Array = new Uint8Array(data.AudioStream);
+        const arrayBuffer = uInt8Array.buffer;
+        const blob = new Blob([arrayBuffer]);
+        if (audioRef.current) {
+          audioRef.current.src = URL.createObjectURL(blob);
+          audioRef.current.play().catch((error) => {
+            console.warn("Playback was not triggered by a user action.", error);
+          });
+          audioRef.current.addEventListener("ended", () => {
+            SpeechRecognition.startListening();
+          });
+        }
       }
-    }
-  });
-};
-
+    });
+  };
 
   //multilingual-------------------------------------------------------------------------------------------------//
   const [selectedLanguage, setSelectedLanguage] = useState("en"); // Default language
@@ -269,7 +307,47 @@ const talk = (text) => {
       ))}
     </select>
   );
-//multilingual-------------------------------------------------------------------------------------------------//
+  //multilingual-------------------------------------------------------------------------------------------------//
+
+  const wallpaper1 = () => {
+    return () => {
+      // Ensure it returns a function so it doesn't execute immediately on render
+      console.log("working");
+      setBgImage(spaceImage2);
+    };
+  };
+
+  function wallpaper2() {
+    return () => {
+      // Ensure it returns a function so it doesn't execute immediately on render
+      console.log("working");
+      setBgImage(spaceImage3);
+    };
+  }
+
+  function wallpaper3() {
+    return () => {
+      // Ensure it returns a function so it doesn't execute immediately on render
+      console.log("working");
+      setBgImage(spaceImage4);
+    };
+  }
+
+  function wallpaper4() {
+    return () => {
+      // Ensure it returns a function so it doesn't execute immediately on render
+      console.log("working");
+      setBgImage(spaceImage5);
+    };
+  }
+
+  function wallpaper5() {
+    return () => {
+      // Ensure it returns a function so it doesn't execute immediately on render
+      console.log("working");
+      setBgImage(spaceImage6);
+    };
+  }
 
   function SoundEffectButton() {
     const effects = [sound1, sound2, sound3, VenomVoice];
@@ -561,15 +639,55 @@ const talk = (text) => {
 
   return (
     <div style={{}}>
-      <div id="large-header" className="large-header">
+      <div
+        id="large-header"
+        className="large-header"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      >
         <canvas id="demo-canvas"></canvas>
         <div className="element">
           <div className="wrapper">
-            <div className="widget-info">
-              <h3 className=""> Weather </h3>
-              <h4 className="info">Temperature: {temperature}°C</h4>
-              <h4 className="info">Rain: {rain}mm</h4>
-              <h4 className="info">Visiability: {visibility}m</h4>
+            <div className="spotifyWidget">
+              <SpotifyPlayer
+                uri="spotify:album:18NOKLkZETa4sWwLMIm0UZ"
+                size={{ width: 400, height: 650 }}
+                theme="white"
+                view="list"
+              />
+
+              <div className="newWidget">
+                <div className="colorDiv">
+                  <h3 className=""> Weather </h3>
+                  <h4 className="info">Temperature: {temperature}°C</h4>
+                  <h4 className="info">Rain: {rain}mm</h4>
+                  <h4 className="info">Visiability: {visibility}m</h4>
+                </div>
+                <div className="quoteContainer">
+                  <h3>Quote of the Day:</h3>
+                  <h5 id="quoteText">Quote: {useQuote}</h5>
+                </div>
+                <div className="changeWallpaper">
+                  <h3>Change Wallpaper</h3>
+                  <div className="buttons">
+                    <button className="wallpaperButtons" onClick={wallpaper1()}>
+                      {" "}
+                      1{" "}
+                    </button>
+                    <button className="wallpaperButtons" onClick={wallpaper2()}>
+                      2
+                    </button>
+                    <button className="wallpaperButtons" onClick={wallpaper3()}>
+                      3
+                    </button>
+                    <button className="wallpaperButtons" onClick={wallpaper4()}>
+                      4
+                    </button>
+                    <button className="wallpaperButtons" onClick={wallpaper5()}>
+                      5
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -599,53 +717,52 @@ const talk = (text) => {
             Press to interact
           </button>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div>
+            <div>
+              <select
+                value={selectedVoice}
+                onChange={(e) => {
+                  setSelectedVoice(e.target.value);
+                }}
+                className="btn btn-three change-voice"
+                style={{
+                  backgroundColor: "transparent", // Set the background color to transparent
+                  color: "white", // Change the text color to white or any other color you prefer
+                  transition: "background-color 0.3s ease", // Add a smooth transition for hover effect
+                  cursor: "pointer",
+                }}
+              >
+                {voices.map((voice) => (
+                  <option
+                    key={voice.VoiceId}
+                    value={voice.VoiceId}
+                    style={{
+                      backgroundColor: "black",
+                    }}
+                  >
+                    {voice.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <select
-              value={selectedVoice}
-              onChange={(e) => {
-                setSelectedVoice(e.target.value);
-              }}
+              value={selectedLanguage} //language dropdown//
+              onChange={(e) => handleLanguageChange(e.target.value)}
               className="btn btn-three change-voice"
               style={{
-                backgroundColor: "transparent", // Set the background color to transparent
-                color: "white", // Change the text color to white or any other color you prefer
-                transition: "background-color 0.3s ease", // Add a smooth transition for hover effect
+                backgroundColor: "transparent",
+                color: "white",
+                transition: "background-color 0.3s ease",
                 cursor: "pointer",
               }}
             >
-              {voices.map((voice) => (
-                <option
-                  key={voice.VoiceId}
-                  value={voice.VoiceId}
-                  style={{
-                    backgroundColor: "black",
-                  }}
-                >
-                  {voice.name}
+              {languages.map((language) => (
+                <option key={language.code} value={language.code}>
+                  {language.name}
                 </option>
               ))}
             </select>
           </div>
-
-         <select
-            value={selectedLanguage}//language dropdown//
-            onChange={(e) => handleLanguageChange(e.target.value)}
-            className="btn btn-three change-voice"
-            style={{
-              backgroundColor: "transparent",
-              color: "white",
-              transition: "background-color 0.3s ease",
-              cursor: "pointer",
-            }}
-          >
-            {languages.map((language) => (
-              <option key={language.code} value={language.code}>
-                {language.name}
-              </option>
-            ))}            
-          </select>
-        </div>
-
         </div>
       </div>
     </div>

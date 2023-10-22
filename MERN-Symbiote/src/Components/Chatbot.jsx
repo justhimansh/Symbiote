@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import sound from "../Files/generateSound.mp3";
 
-const API_KEY = "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"; // Replace with your actual OpenAI API key
+const API_KEY = ""; // Replace with your actual OpenAI API key
 
 function Chatbot() {
   const [userInput, setUserInput] = useState("");

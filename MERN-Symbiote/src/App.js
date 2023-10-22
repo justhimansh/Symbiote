@@ -9,6 +9,7 @@ import { Route, Switch } from 'react-router-dom';
 import Contact from './Components/Contact';
 import Chatbot from './Components/Chatbot';
 import Video from './Components/Video'
+import Games from './Components/Games'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact path='/contact' component={Contact}/>
         <Route exact path='/chatbot' component={Chatbot}/>
         <Route exact path='/video' component={Video}/>
+        <Route exact path='/games' component={Games}/>
       </Switch>
     </>
   );
