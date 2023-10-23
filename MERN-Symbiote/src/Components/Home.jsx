@@ -256,10 +256,11 @@ function Landing() {
     const polly = new AWS.Polly();
     const params = {
       OutputFormat: "mp3",
-      Text: text,
-      TextType: "text",
-      VoiceId: selectedVoice, // Use the selected voice here
+      Text: `<speak><prosody rate="${voiceSpeed}">${text}</prosody></speak>`,
+      TextType: "ssml", // Set the TextType to SSML
+      VoiceId: selectedVoice,
     };
+
     polly.synthesizeSpeech(params, function (err, data) {
       if (err) {
         console.log(err, err.stack);
@@ -279,6 +280,8 @@ function Landing() {
       }
     });
   };
+
+  const [voiceSpeed, setVoiceSpeed] = useState(100); // Default speed is 100%
 
   //multilingual-------------------------------------------------------------------------------------------------//
   const [selectedLanguage, setSelectedLanguage] = useState("en"); // Default language
@@ -649,7 +652,7 @@ function Landing() {
           <div className="wrapper">
             <div className="spotifyWidget">
               <SpotifyPlayer
-                uri="spotify:album:18NOKLkZETa4sWwLMIm0UZ"
+                uri="spotify:album:3Gt7rOjcZQoHCfnKl5AkK7"
                 size={{ width: 400, height: 650 }}
                 theme="white"
                 view="list"
@@ -761,6 +764,16 @@ function Landing() {
                   {language.name}
                 </option>
               ))}
+            </select>
+            <select
+              value={voiceSpeed}
+              onChange={(e) => setVoiceSpeed(e.target.value)}
+            >
+              <option value="x-slow">Extra Slow</option>
+              <option value="slow">Slow</option>
+              <option value="medium">Normal</option>
+              <option value="fast">Fast</option>
+              <option value="x-fast">Extra Fast</option>
             </select>
           </div>
         </div>
