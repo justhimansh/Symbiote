@@ -11,6 +11,7 @@ require('./db/conn');
 const port = process.env.PORT;
 
 const Users = require('./models/userSchema');
+const authenticate = require('./middleware/autheticate');
 
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
@@ -74,6 +75,14 @@ app.post('/login', async (req, res) => {
     }
   });
  
+app.get('/logout', (req, res)=>{
+  res.clearCookie("jwt", {path: '/'})
+  res.status(200).send("User Logged Out")
+})
+
+app.get('/auth', authenticate, (req, res) => {
+
+})
 app.listen(port, ()=>{
     console.log("Server is Listening")
 })

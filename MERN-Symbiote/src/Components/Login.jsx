@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Login = () => {
+
+   const history = useHistory()
     const [user, setUser] = useState({
         email : '',
         password : ''
@@ -29,11 +32,12 @@ const Login = () => {
 
             if (res.status === 400 || !res) {
                 // Registration failed, handle the error
-              window.alert('Email and Password Used')
+              window.alert('Wrong Email or Password, Please try again')
             } else {
               // Registration was successful
               window.alert('Login Successful');
                 window.location.reload();
+                history.push('/')
             }
           } catch (error) {
             console.error('Error:', error);

@@ -1,70 +1,45 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Symbiote - Your Personal AI Assistant
+**Description**
+Symbiote is your ultimate AI-driven personal assistant, designed to enrich your daily
+experience. It offers conversational AI, customization options, and an array of
+entertainment features, including games and music integration. Our aim is to provide
+a user-centric and engaging AI assistant that adapts to your needs.
+**Technology Stack**
+- **IDE**: Visual Studio Code
+ - A versatile and efficient code editor for a productive development environment.
+ - Lightweight and cross-platform, ensuring compatibility on various operating
+systems.
+- **Framework**: React
+ - A JavaScript library for dynamic and interactive user interfaces.
+ - Component-based architecture for efficient development and maintenance.
+ - Virtual DOM for optimal performance and a responsive user experience.
+- **Backend and Database**: MongoDB
+ - A NoSQL database for flexible schema design and adaptability.
+ - Horizontal scalability to accommodate growth and evolving project requirements.
+ - Data stored in BSON format for developer-friendliness.
+- **Version Control**: Git
+ - Distributed version control for seamless collaboration and code management.
+ - Branching and merging capabilities for efficient parallel development.
+- **Hosting Service**: Amazon Web Services (AWS)
+ - A leading cloud platform with auto-scaling for performance optimization.
+ - High availability and redundancy for a reliable user experience.
+ - A wide array of services to meet evolving project needs.
+**Team Members**
+- **Himash Kohli**: Product Owner
+- **Sukhman Vir Singh**: Scrum Master
+- **Johnny Set**: Developer
+- **Tritod Jumnongthanachot (Mark)**: Developer
+- **Shubam Paudel**: Developer
+**Contributing**
+We welcome contributions to Symbiote.
+**Support**
+If you have questions or need assistance, feel free to reach out to our team .
+**License**
+Symbiote is open source and is licensed under the MIT License. You can find more
+details in the [LICENSE](LICENSE) file.
+**Project Status**
+Development of Symbiote is ongoing, and we're committed to delivering an
+exceptional AI assistant experience. If you're interested in contributing or becoming a
+maintainer, please get in touch. We value your support in making Symbiote even
+better.
+Thank you for choosing Symbiote as your personal AI assistant!
