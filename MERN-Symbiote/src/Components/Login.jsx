@@ -31,17 +31,14 @@ const Login = () => {
             });
 
             if (res.status === 400 || !res) {
-                // Registration failed, handle the error
               window.alert('Wrong Email or Password, Please try again')
             } else {
-              // Registration was successful
               window.alert('Login Successful');
                 window.location.reload();
                 history.push('/')
             }
           } catch (error) {
             console.error('Error:', error);
-            // Handle the error, show an error message, etc.
           }
     }
 

@@ -23,24 +23,24 @@ app.get('/', (req, res)=>{
 
 app.post('/register', async (req, res)=>{
     try {
-        const email = req.body.email;
-        const password = req.body.password;
-        const repassword = req.body.repassword;
+      const email = req.body.email;
+      const password = req.body.password;
+      const repassword = req.body.repassword;
         
-        const createUser = new Users({
-            email : email,
-            password : password,
-            repassword : repassword
-        });
+      const createUser = new Users({
+        email : email,
+        password: await bcryptjs.hash(password, 10),
+        repassword : repassword
+      });
 
-        const created = await createUser.save();
-        console.log(created);
-        res.status(200).send(created);
-
-    } catch (error) {
-        res.status(400).send("Invalid")
+      const created = await createUser.save();
+      console.log(created);
+      res.status(200).send("Registered");
+    }catch (error) {
+      res.status(500).send("Internal Server Error")
+      console.error(error)
     }
-})
+});
 
 app.post('/login', async (req, res) => {
     try {

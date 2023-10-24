@@ -34,17 +34,14 @@ export function Register() {
         })
       });
 
-      if (!response.ok) {
-        // Registration failed, handle the error
+      if (response.status === 400 || !response) {
         window.alert('Email and Password Used');
       } else {
-        // Registration was successful
         window.alert('Registration Successful');
-        history.push('/login'); // Use push instead of pushState
+        history.push('/login'); 
       }
     } catch (error) {
       console.error('Error:', error);
-      // Handle the error, show an error message, etc.
     }
   }
 

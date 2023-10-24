@@ -30,7 +30,9 @@ const Navbar = (props) => {
                     <NavLink className="nav-link" to="/games">Games</NavLink>
                   </li>
                 </ul>
+
                 <NavLink className="navbar-brand fw-bolder fs-4 mx-auto"to="/">Symbiote</NavLink>
+                
                 {props.auth ?
                 <>
                   <NavLink to="/login" className="btn btn-light ms-auto px-4 rounded-pill"><i className="fa fa-sign-in me-2"></i>Login</NavLink>
