@@ -281,7 +281,7 @@ function Landing() {
     });
   };
 
-  const [voiceSpeed, setVoiceSpeed] = useState(100); // Default speed is 100%
+  const [voiceSpeed, setVoiceSpeed] = useState("medium"); // Default speed is medium
 
   //multilingual-------------------------------------------------------------------------------------------------//
   const [selectedLanguage, setSelectedLanguage] = useState("en"); // Default language
@@ -765,16 +765,25 @@ function Landing() {
                 </option>
               ))}
             </select>
-            <select
-              value={voiceSpeed}
-              onChange={(e) => setVoiceSpeed(e.target.value)}
-            >
-              <option value="x-slow">Extra Slow</option>
-              <option value="slow">Slow</option>
-              <option value="medium">Normal</option>
-              <option value="fast">Fast</option>
-              <option value="x-fast">Extra Fast</option>
-            </select>
+            <div>
+              <select
+                value={voiceSpeed}
+                onChange={(e) => setVoiceSpeed(e.target.value)}
+                className="btn btn-three"
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  transition: "background-color 0.3s ease",
+                  cursor: "pointer",
+                }}
+              >
+                <option value="x-slow">Extra Slow</option>
+                <option value="slow">Slow</option>
+                <option value="medium">Normal</option>
+                <option value="fast">Fast</option>
+                <option value="x-fast">Extra Fast</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
